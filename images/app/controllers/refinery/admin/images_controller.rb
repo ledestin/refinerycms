@@ -42,7 +42,7 @@ module Refinery
         begin
           if many_images_passed?
             params[:image][:image].each do |image|
-              params[:image][:image_title] = params[:image][:image_title].presence || auto_title(image.original_filename)
+              params[:image][:image_title] = auto_title(image.original_filename) unless params[:image][:image_title].present?
               @images << (@image = ::Refinery::Image.create({image: image}.merge(image_params.except(:image).to_h)))
             end
           else
