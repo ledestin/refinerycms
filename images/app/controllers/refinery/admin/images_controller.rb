@@ -40,7 +40,7 @@ module Refinery
       def create
         @images = []
         begin
-          if params[:image].present? && params[:image][:image].is_a?(Array)
+          if many_images_passed?
             params[:image][:image].each do |image|
               params[:image][:image_title] = params[:image][:image_title].presence || auto_title(image.original_filename)
               @images << (@image = ::Refinery::Image.create({image: image}.merge(image_params.except(:image).to_h)))
@@ -151,6 +151,10 @@ module Refinery
         [
           :image, :image_size, :image_title, :image_alt
         ]
+      end
+
+      def many_images_passed?
+        params[:image].present? && params[:image][:image].is_a?(Array)
       end
 
     end
