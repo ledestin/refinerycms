@@ -40,13 +40,13 @@ module Refinery
       def create
         @images = []
         begin
-          if many_images_passed?
+          unless many_images_passed?
+            @images << (@image = ::Refinery::Image.create(image_params))
+          else
             many_images_param.each do |image|
               new_image_attrs = prepare_new_attrs(image)
               @images << (@image = ::Refinery::Image.create(new_image_attrs))
             end
-          else
-            @images << (@image = ::Refinery::Image.create(image_params))
           end
         rescue NotImplementedError
           logger.warn($!.message)
