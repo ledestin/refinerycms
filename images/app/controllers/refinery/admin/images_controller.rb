@@ -56,7 +56,7 @@ module Refinery
         if params[:insert]
           # if all uploaded images are ok redirect page back to dialog, else show current page with error
           if @images.all?(&:valid?)
-            @image_id = @image.id if @image.persisted?
+            @selected_image_id = @image.id if @image.persisted?
             @image = nil
           end
 
@@ -116,7 +116,7 @@ module Refinery
         @app_dialog = params[:app_dialog].present?
         @field = params[:field]
         @update_image = params[:update_image]
-        @image_id = params[:selected_image].to_i if params[:selected_image].present?
+        @selected_image_id = params[:selected_image].to_i if params[:selected_image].present?
         @thumbnail = params[:thumbnail]
         @callback = params[:callback]
         @multiple = params[:multiple]
