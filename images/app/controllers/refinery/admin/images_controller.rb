@@ -42,9 +42,7 @@ module Refinery
         begin
           if many_images_passed?
             many_images_param.each do |image|
-              new_image_attrs = image_params.dup
-              new_image_attrs[:image_title] = auto_title(image.original_filename) unless new_image_attrs[:image_title].present?
-              new_image_attrs[:image] = image
+              new_image_attrs = prepare_new_attrs(image)
               @images << (@image = ::Refinery::Image.create(new_image_attrs))
             end
           else
@@ -161,6 +159,13 @@ module Refinery
 
       def many_images_param
         params[:image][:image]
+      end
+
+      def prepare_new_attrs(image)
+        new_image_attrs = image_params.dup
+        new_image_attrs[:image_title] = auto_title(image.original_filename) unless new_image_attrs[:image_title].present?
+        new_image_attrs[:image] = image
+        new_image_attrs
       end
 
     end
