@@ -56,7 +56,7 @@ module Refinery
         if params[:insert]
           # if all uploaded images are ok redirect page back to dialog, else show current page with error
           if @images.all?(&:valid?)
-            @selected_image_id = @image.id if @image.persisted?
+            set_selected_image
             @image = nil
           end
 
@@ -166,6 +166,10 @@ module Refinery
         new_image_attrs[:image_title] = auto_title(image.original_filename) unless new_image_attrs[:image_title].present?
         new_image_attrs[:image] = image
         new_image_attrs
+      end
+
+      def set_selected_image
+        @selected_image_id = @image.id if @image.persisted?
       end
 
     end
